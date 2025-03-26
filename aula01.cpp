@@ -77,10 +77,13 @@ TabelaDispersao::~TabelaDispersao()
 {
   Celula *aux;
   for(int i = 0; i<m;i++){
-    for(aux=tabela[i];aux!=nullptr;aux=aux->prox);{
-    delete aux;    
-  }
-  tabela[i]=nullptr;
+    aux=tabela[i];
+    while(aux->prox!=nullptr){
+      Celula *temp=aux;
+      aux=aux->prox;
+      delete temp;
+    }
+    tabela[i]=nullptr;
   }
   delete [] tabela;
 }
@@ -103,7 +106,8 @@ bool TabelaDispersao::busca(int x)
 
 bool TabelaDispersao::remove(int x)
 {
-  Celula *aux,*aux2=nullprt;
+  Celula *aux;
+  Celula *aux2=nullptr;
   for(aux=tabela[h(x)];aux!=nullptr && aux->chave!=x;aux2=aux,aux=aux->prox);
   if (aux!=nullptr){
     if(aux2==nullptr){
