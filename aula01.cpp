@@ -50,19 +50,18 @@ bool teste=tabela.busca(10);
 if(teste==true){
     printf("achou");
 }else{
-    printf("Nao achou");
+    printf("Nao achou\n");
 }
 int teste2=tabela.elementos();
-printf("%d",teste2);
+printf("Numero de elementos na tabela:%d\n",teste2);
   
-  /* Teste de remoção
   printf("Removendo 6...\n");
   tabela.remove(6);
-  tabela.escreve();*/
+  tabela.escreve();
 
-  /*printf("Removendo 10 (não existe)...\n");
+  printf("Removendo 10 (não existe)...\n");
   tabela.remove(10);
-  tabela.escreve();*/
+  tabela.escreve();
 
   // Teste de fator de carga
   // printf("Fator de carga: %.2f\n", tabela.fator_carga());
@@ -102,8 +101,17 @@ bool TabelaDispersao::busca(int x)
 
 bool TabelaDispersao::remove(int x)
 {
-  // FAZER: varrer a lista em tabela[h(x)], removendo a célula com x se encontrar e devolvendo true, ou devolvendo false se não encontrar
-  return true;
+  Celula *aux,*aux2;
+  for(aux=tabela[h(x)];aux!=nullptr && aux->chave!=x;aux2=aux,aux=aux->prox);
+  if (aux!=nullptr){
+    if(aux2==nullptr){
+      tabela[h(x)]=aux->prox;
+    }else{
+      aux2->prox=aux->prox;
+      delete aux;}
+    return true;
+  }else{
+    return false;}
 }
 
 double TabelaDispersao::fator_carga()
