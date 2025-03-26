@@ -35,12 +35,10 @@ private:
 
 int main(void)
 {
-    TabelaDispersao tabela(5); // Tabela com 5 buckets
-
-  // Inserindo elementos
+    TabelaDispersao tabela(5); 
   tabela.insere(1);
-  tabela.insere(6);  // Vai colidir com 1 (1 % 5 == 1, 6 % 5 == 1)
-  tabela.insere(11); // Também colide na posição 1
+  tabela.insere(6);  
+  tabela.insere(11); 
   tabela.insere(3);
 
   printf("Tabela após inserções:\n");
@@ -62,10 +60,7 @@ printf("Numero de elementos na tabela:%d\n",teste2);
   printf("Removendo 10 (não existe)...\n");
   tabela.remove(10);
   tabela.escreve();
-
-  // Teste de fator de carga
-  // printf("Fator de carga: %.2f\n", tabela.fator_carga());
-
+ 
 
   return 0;
 }
@@ -80,9 +75,16 @@ TabelaDispersao::TabelaDispersao(int tamanho) :
 
 TabelaDispersao::~TabelaDispersao()
 {
-  // FAZER: varrer cada lista deletando as células
-  delete[] tabela;
+  Celula *aux,*aux2;
+  for(int i = 0; i<m;i++){
+    for(aux=tabela[i];aux!=nullptr;aux=aux->prox);{
+    delete aux;    
+  }
+  tabela[i]=nullptr;
+  }
+  delete [] tabela;
 }
+
 
 void TabelaDispersao::insere(int x)
 {
@@ -106,6 +108,7 @@ bool TabelaDispersao::remove(int x)
   if (aux!=nullptr){
     if(aux2==nullptr){
       tabela[h(x)]=aux->prox;
+      delete aux;
     }else{
       aux2->prox=aux->prox;
       delete aux;}
